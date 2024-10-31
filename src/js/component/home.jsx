@@ -1,25 +1,51 @@
-import React from "react";
-
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import React, {useState} from "react";
 
 //create your first component
-const Home = () => {
+const Home = () => { 
+	const [tarea, setTarea] = useState("")
+	const [lista, setLista] = useState([])
+
+	const manejarCambio = (e) => {
+		 setTarea (e.target.value)
+	//  console.log(e.target.value);
+	}
+
+	const agregarTarea =() => {
+		console.log("tarea agregada");
+		if (!tarea.trim() == ""){
+			setLista(lista.concat(tarea))
+			setTarea("")
+		}
+		
+  
+
+	}
+	console.log(lista);
+	
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
+	<div className="w-100 d-flex flex-column align-items-center">
+	<h1>hola</h1>
+	
+	<div class="mb-3">
+  <input value={tarea} type="text" class="form-control" id="exampleFormControlInput1" placeholder="que vas a hacer hoy?" onChange={manejarCambio} onKeyDown={(e) => {
+	
+	if(e.key == "Enter"){
+
+		agregarTarea()
+	}
+  }}/>
+
+</div>
+	
+	<ul class="list-group">
+
+ {lista.map((item,index)=>{
+	return(
+		<li key={index} class="list-group-item">{item}</li>	
+	)
+ })}
+</ul>
+	</div>	
 	);
 };
 
