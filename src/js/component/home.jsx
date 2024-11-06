@@ -1,51 +1,78 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-//create your first component
 const Home = () => { 
-	const [tarea, setTarea] = useState("")
-	const [lista, setLista] = useState([])
+	const [tarea, setTarea] = useState("");
+	const [lista, setLista] = useState([]);
 
 	const manejarCambio = (e) => {
-		 setTarea (e.target.value)
-	//  console.log(e.target.value);
-	}
+		setTarea(e.target.value);
+	};
 
-	const agregarTarea =() => {
-		console.log("tarea agregada");
-		if (!tarea.trim() == ""){
-			setLista(lista.concat(tarea))
-			setTarea("")
+	const agregarTarea = () => {
+		if (tarea.trim() !== "") {
+			setLista(lista.concat(tarea));
+			setTarea(""); 
 		}
-		
-  
+	};
 
-	}
-	console.log(lista);
-	
+	const eliminarTarea = (index) => {
+		const nuevaLista = lista.filter((item, i) => i !== index);
+		setLista(nuevaLista);
+	};
+
 	return (
-	<div className="w-100 d-flex flex-column align-items-center">
-	<h1>hola</h1>
-	
-	<div class="mb-3">
-  <input value={tarea} type="text" class="form-control" id="exampleFormControlInput1" placeholder="que vas a hacer hoy?" onChange={manejarCambio} onKeyDown={(e) => {
-	
-	if(e.key == "Enter"){
+		<div className="w-100 d-flex flex-column align-items-center">
+			<h1 className="mb-4" style={{ color: "green" }}>Lista de Tareas</h1>
 
-		agregarTarea()
-	}
-  }}/>
+			<div className="mb-3" style={{ width: "50%" }}>
+				<input
+					value={tarea}
+					type="text"
+					className="form-control"
+					id="exampleFormControlInput1"
+					placeholder="¿Qué vas a hacer hoy?"
+					onChange={manejarCambio}
+					onKeyDown={(e) => {
+						if (e.key === "Enter") {
+							agregarTarea();
+						}
+					}}
+				/>
+			</div>
 
-</div>
-	
-	<ul class="list-group">
-
- {lista.map((item,index)=>{
-	return(
-		<li key={index} class="list-group-item">{item}</li>	
-	)
- })}
-</ul>
-	</div>	
+			<ul className="list-group" style={{ width: "50%" }}>
+				{lista.map((item, index) => {
+					return (
+						<li
+							key={index}
+							className="list-group-item d-flex justify-content-between align-items-center"
+							style={{
+								backgroundColor: "grey-light",
+								borderRadius: "10px",
+								boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+								marginBottom: "10px",
+								padding: "15px",
+								transition: "background-color 0.3s ease",
+							}}
+						>
+							<span>{item}</span>
+							<button 
+								className="btn btn-danger btn-sm" 
+								onClick={() => eliminarTarea(index)}
+								style={{
+									borderRadius: "50%",
+									width: "30px",
+									height: "30px",
+									padding: "0",
+								}}
+							>
+								<i className="fas fa-times"></i> 
+							</button>
+						</li>
+					);
+				})}
+			</ul>
+		</div>
 	);
 };
 
